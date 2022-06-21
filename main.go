@@ -1,6 +1,8 @@
 package main
 
+//booking-app is the name ofthe go module, which also serves as n import path for packages
 import (
+	"booking-app/helper"
 	"fmt"
 	"strings"
 )
@@ -63,7 +65,7 @@ func main() {
 		fmt.Println("Enter the number of tickets to be booked")
 		fmt.Scan(&tickets)
 
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, tickets, remainingTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, tickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTickets()
