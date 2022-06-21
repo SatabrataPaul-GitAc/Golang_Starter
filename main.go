@@ -5,6 +5,31 @@ import (
 	"strings"
 )
 
+func greetUsers(conferenceName string, conferenceTickets int, remainingTickets uint) {
+	fmt.Printf("Welcome to %v booking appication !!!\n", conferenceName)
+	fmt.Println("We have", conferenceTickets, "tickets in total and ", remainingTickets, "are still available.")
+	fmt.Println("Get your tickets here to attend")
+	fmt.Println()
+}
+
+func displayFirstNames(bookings []string) []string {
+	firstNames := []string{}
+	for _, booking := range bookings {
+		var names = strings.Fields(booking)
+		firstNames = append(firstNames, names[0])
+	}
+
+	return firstNames
+}
+
+func validateUserInput(firstName string, lastName string, email string, tickets uint, remainingTickets uint) (bool, bool, bool) {
+	isValidName := len(firstName) > 2 && len(lastName) > 2
+	isValidEmail := strings.Contains(email, "@")
+	isValidTicketNumber := tickets > 0 && tickets <= remainingTickets
+
+	return isValidName, isValidEmail, isValidTicketNumber
+}
+
 func main() {
 	var conferenceName = "Go Conference" //Type inference
 	// Another syntax for writing the above line that showcases typeinference
@@ -24,10 +49,8 @@ func main() {
 	var tickets uint
 
 	for {
-		fmt.Printf("Welcome to %v booking appication !!!\n", conferenceName)
-		fmt.Println("We have", conferenceTickets, "tickets in total and ", remainingTickets, "are still available.")
-		fmt.Println("Get your tickets here to attend")
-		fmt.Println()
+
+		greetUsers(conferenceName, conferenceTickets, remainingTickets)
 
 		fmt.Println("Enter your first name: ")
 		fmt.Scan(&firstName)
@@ -41,23 +64,16 @@ func main() {
 		fmt.Println("Enter the number of tickets to be booked")
 		fmt.Scan(&tickets)
 
-		isValidName := len(firstName) > 2 && len(lastName) > 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := tickets > 0 && tickets <= remainingTickets
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, tickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			remainingTickets = remainingTickets - uint(tickets)
 			bookings = append(bookings, firstName+" "+lastName)
-
-			firstNames := []string{}
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
+			firstNames := displayFirstNames(bookings)
 
 			fmt.Printf("Thank You %v %v for booking %v tickets at %v. You will soon receive a confirmation email regarding the same !!!\n", firstName, lastName, tickets, conferenceName)
 			fmt.Printf("Remaining tickets for %v is %v\n\n", conferenceName, remainingTickets)
-			fmt.Printf("These first names of our bookings: %v \n\n", firstNames)
+			fmt.Printf("The first names of our bookings are:  %v\n\n", firstNames)
 
 			if remainingTickets == 0 {
 				fmt.Printf("All tickets for %v are sold out. Come back next year !!!", conferenceName)
@@ -77,4 +93,23 @@ func main() {
 			}
 		}
 	}
+
+	/*
+		Example syntax for switch statement
+
+		city := "London"
+
+		switch city {
+			case "New York":
+				some code to be executed
+			case "London":
+				some to be executed
+			case "Singapore":
+				some code to be executed*
+			case "Australia", "Berlin":
+				some code to be executed when the choice of city is either Australia or Berlin
+			default:
+				some print statement , for telling the wrong choice
+			}
+	*/
 }
