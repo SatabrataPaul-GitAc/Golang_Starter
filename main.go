@@ -61,6 +61,7 @@ func bookTickets() {
 }
 
 func main() {
+	structs()
 	for {
 
 		greetUsers(conferenceName, conferenceTickets, remainingTickets)
