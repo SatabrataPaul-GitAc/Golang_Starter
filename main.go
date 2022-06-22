@@ -4,6 +4,7 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -19,6 +20,12 @@ var remainingTickets uint = 100 //Explicitly specifying unit type, because remai
 
 //Bookings slice
 var bookings []string //Alternative syntax-> bookings := []string{}
+
+//Creating a user data slice where each element is a map
+var userDataList = make([]map[string]string, 0)
+
+//Creating a user data map
+var userData = make(map[string]string)
 
 //Taking a user's input
 var firstName string
@@ -46,6 +53,11 @@ func displayFirstNames(bookings []string) []string {
 func bookTickets() {
 	remainingTickets = remainingTickets - uint(tickets)
 	bookings = append(bookings, firstName+" "+lastName)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["tickets"] = strconv.FormatUint(uint64(tickets), 10)
+	userDataList = append(userDataList, userData)
 }
 
 func main() {
